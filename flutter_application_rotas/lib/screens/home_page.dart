@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
+import './perfil_page.dart';
 
-class HomePage extends StatelessWidget{
-  const HomePage({super.key});
+class HomePage extends StatefulWidget{
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage>{
+  int indiceAtual=0;
+
+  final List<Widget> telas = [
+    HomeContent(),
+    PerfilPage()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -26,22 +37,44 @@ class HomePage extends StatelessWidget{
           ],
         ),
       ),
-      body:Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('Conteúdo da Tela Inicial'),
-            SizedBox(height: 20),
-            Text('Conteúdo do corpo da tela inicial.'),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: (){Navigator.pushNamed(context, '/perfil');}, 
-              child: Text('Acessar o Perfil')
-            )
-          ],
-        ),
+      body: telas[indiceAtual],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: indiceAtual,
+        onTap: (index){
+          setState(() {
+            indiceAtual = index;
+          });
+        },
+        items:[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label:'Perfil')
+        ]
       )
+    );
+  }
+}
+
+
+class HomeContent extends StatelessWidget{
+  const HomeContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text('Conteúdo da Tela Inicial'),
+          SizedBox(height: 20),
+          Text('Conteúdo do corpo da tela inicial.'),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: (){Navigator.pushNamed(context, '/perfil');}, 
+            child: Text('Acessar o Perfil')
+          )
+        ],
+      ),
     );
   }
 }
